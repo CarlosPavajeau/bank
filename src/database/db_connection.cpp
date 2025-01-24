@@ -49,10 +49,7 @@ bool sqlite3_connection::close()
 
 int sqlite3_connection::execute(const std::string_view statement)
 {
-  if (db_ == nullptr) {
-    throw std::runtime_error(
-        "sqlite3_connection::execute() called with nullptr");
-  }
+  assert(db_ != nullptr, "sqlite3_connection::execute called with null db");
 
   char* zErrMsg = nullptr;
   const int rc = sqlite3_exec(
