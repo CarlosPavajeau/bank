@@ -19,6 +19,20 @@ FetchContent_Declare(
 set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(googletest)
 
+# set macro-directory
+list(APPEND CMAKE_MODULE_PATH
+        "${CMAKE_SOURCE_DIR}/cmake/macros")
+
+# build in Release-mode by default if not explicitly set
+if (NOT CMAKE_BUILD_TYPE)
+    set(CMAKE_BUILD_TYPE "RelWithDebInfo")
+endif ()
+
+include(cmake/options.cmake)
+
+include(GroupSources)
+include(AutoCollect)
+
 add_subdirectory(src)
 add_subdirectory(dep)
 add_subdirectory(test)
