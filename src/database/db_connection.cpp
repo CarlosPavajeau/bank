@@ -1,11 +1,11 @@
+#include <cassert>
 #include <iostream>
 #include <ostream>
 #include <stdexcept>
 
 #include "db_connection.h"
 
-#include <assert.h>
-#include <sqlite3/sqlite3.h>
+#include <sqlite3.h>
 
 namespace bank::db
 {
@@ -49,7 +49,7 @@ bool sqlite3_connection::close()
 
 int sqlite3_connection::execute(const std::string_view statement)
 {
-  assert(db_ != nullptr, "sqlite3_connection::execute called with null db");
+  assert(db_ != nullptr);
 
   char* zErrMsg = nullptr;
   const int rc = sqlite3_exec(

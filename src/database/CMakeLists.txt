@@ -1,7 +1,17 @@
-add_library(database db_connection.h db_connection.cpp)
+CollectSourceFiles(${CMAKE_CURRENT_SOURCE_DIR} PRIVATE_SOURCES)
+GroupSources(${CMAKE_CURRENT_SOURCE_DIR})
+
+add_library(database ${PRIVATE_SOURCES})
+
+CollectIncludeDirectories(${CMAKE_CURRENT_SOURCE_DIR} PUBLIC_INCLUDES)
+
+target_include_directories(database
+        PUBLIC
+        ${CMAKE_BINARY_DIR}
+        ${PUBLIC_INCLUDES}
+        sqlite3
+        PRIVATE
+        ${CMAKE_CURRENT_BINARY_DIR}
+)
 
 target_link_libraries(database PUBLIC sqlite3)
-target_include_directories(database PUBLIC "${PROJECT_BINARY_DIR}" "${PROJECT_SOURCE_DIR}/dep")
-
-install(FILES db_connection.h DESTINATION include)
-install(TARGETS database LIBRARY DESTINATION lib ARCHIVE DESTINATION lib)

@@ -1,7 +1,7 @@
 #include <iostream>
 
-#include "database/db_connection.h"
-#include "sqlite3/sqlite3.h"
+#include "db_connection.h"
+#include "sqlite3.h"
 
 struct test_result
 {
