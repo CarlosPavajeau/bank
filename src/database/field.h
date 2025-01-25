@@ -1,6 +1,7 @@
 #ifndef FIELD_H
 #define FIELD_H
 #include <cstdint>
+#include <string>
 
 typedef struct sqlite3_value sqlite3_value;
 
