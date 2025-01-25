@@ -6,34 +6,27 @@ typedef struct sqlite3 sqlite3;
 
 namespace bank::db
 {
+
+class query_result;
+
 class db_connection
 {
 public:
-  db_connection() = default;
-  virtual ~db_connection() = default;
+  explicit db_connection(std::string_view db_name);
+  ~db_connection();
 
-  virtual bool open() = 0;
-  virtual bool close() = 0;
+  bool open();
+  [[nodiscard]] bool close() const;
 
-  virtual int execute(std::string_view statement) = 0;
+  [[nodiscard]] int execute(std::string_view statement) const;
 
-  static int db_callback(void* data, int argc, char** argv, char** azColName);
-};
-
-class sqlite3_connection final : public db_connection
-{
-public:
-  explicit sqlite3_connection(std::string_view db_name);
-  ~sqlite3_connection() override;
-
-  bool open() override;
-  bool close() override;
-
-  int execute(std::string_view statement) override;
+  query_result* query(std::string_view statement) const;
 
 private:
   sqlite3* db_;
   std::string_view db_name_;
+
+  static int db_callback(void* data, int argc, char** argv, char** azColName);
 };
 }  // namespace bank::db
 
