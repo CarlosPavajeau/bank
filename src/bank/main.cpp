@@ -1,10 +1,12 @@
 #include <iomanip>
 #include <iostream>
 
+#include <sqlite3.h>
+
 #include "db_connection.h"
 #include "field.h"
+#include "prepared_statement.h"
 #include "query_result.h"
-#include "sqlite3.h"
 
 int main()
 {
@@ -38,7 +40,13 @@ int main()
     return EXIT_FAILURE;
   }
 
-  const auto query_result = db_connection.query("SELECT * FROM test");
+  db_connection.prepare_statements();
+
+  const auto ps =
+      db_connection.get_prepared_statement(bank::db::select_test_data);
+  ps->set_int(0, 1);
+
+  const auto query_result = db_connection.query(ps);
 
   while (query_result->next()) {
     const auto row = query_result->fetch();
