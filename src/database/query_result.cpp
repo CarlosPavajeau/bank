@@ -53,7 +53,6 @@ void query_result::clean()
   }
 
   if (stmt_) {
-    sqlite3_finalize(stmt_);
     stmt_ = nullptr;
   }
 }
