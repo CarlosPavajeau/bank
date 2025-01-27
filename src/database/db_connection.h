@@ -17,10 +17,8 @@ public:
 
   bool open();
   [[nodiscard]] bool close() const;
-
   [[nodiscard]] int execute(std::string_view statement) const;
-
-  query_result* query(std::string_view statement) const;
+  [[nodiscard]] query_result* query(std::string_view statement) const;
 
 private:
   sqlite3* db_;
