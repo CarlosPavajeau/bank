@@ -27,7 +27,8 @@ public:
   ~db_connection();
 
   bool open();
-  [[nodiscard]] bool close();
+  bool close();
+
   [[nodiscard]] int execute(std::string_view statement) const;
   [[nodiscard]] query_result* query(std::string_view statement) const;
   [[nodiscard]] query_result* query(prepared_statement* stmt) const;
