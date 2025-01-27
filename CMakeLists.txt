@@ -33,6 +33,13 @@ include(cmake/options.cmake)
 include(GroupSources)
 include(AutoCollect)
 
-add_subdirectory(src)
+if (NOT WITHOUT_GIT)
+    find_package(Git 1.7)
+endif ()
+
+# Find revision ID and hash of the sourcetree
+include(cmake/genrev.cmake)
+
 add_subdirectory(dep)
+add_subdirectory(src)
 add_subdirectory(test)
