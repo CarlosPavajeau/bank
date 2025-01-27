@@ -7,7 +7,9 @@
 
 #include <sqlite3.h>
 
+#include "prepared_statement.h"
 #include "query_result.h"
+#include "sqlite3_prepared_statement.h"
 
 namespace bank::db
 {
@@ -41,9 +43,12 @@ bool db_connection::open()
   return open_result == SQLITE_OK;
 }
 
-bool db_connection::close() const
+bool db_connection::close()
 {
   assert(db_ != nullptr);
+
+  prepared_statements_.clear();
+  prepared_statement_size_.clear();
 
   const auto close_result = sqlite3_close(db_);
   return close_result == SQLITE_OK;
@@ -77,6 +82,60 @@ query_result* db_connection::query(const std::string_view statement) const
   const auto column_count = sqlite3_column_count(stmt);
 
   return new query_result(stmt, column_count);
+}
+
+query_result* db_connection::query(prepared_statement* stmt) const
+{
+  assert(db_ != nullptr);
+
+  const auto index = stmt->get_index();
+
+  const auto sqlite3_prepared_statement = get_prepared_statement(index);
+  assert(sqlite3_prepared_statement);
+
+  sqlite3_prepared_statement->bind_parameters(stmt);
+
+  const auto sqlite_stmt = sqlite3_prepared_statement->get_stmt();
+  const auto column_count = sqlite3_column_count(sqlite_stmt);
+
+  return new query_result(sqlite_stmt, column_count);
+}
+
+void db_connection::prepare_statements()
+{
+  prepared_statements_.resize(max_db_statements);
+  prepared_statement_size_.resize(max_db_statements);
+
+  prepare_statement(select_test_data, "SELECT * FROM test WHERE id = ?");
+}
+
+prepared_statement* db_connection::get_prepared_statement(const uint32_t index)
+{
+  return new prepared_statement(index, prepared_statement_size_[index]);
+}
+
+sqlite3_prepared_statement* db_connection::get_prepared_statement(
+    const uint32_t index) const
+{
+  assert(index < prepared_statements_.size());
+
+  const auto ret = prepared_statements_[index].get();
+
+  return ret;
+}
+
+void db_connection::prepare_statement(const uint32_t index,
+                                      const std::string_view sql)
+{
+  assert(index < prepared_statements_.size());
+
+  sqlite3_stmt* stmt = nullptr;
+  sqlite3_prepare_v2(db_, sql.data(), -1, &stmt, nullptr);
+  const auto column_count = sqlite3_bind_parameter_count(stmt);
+
+  prepared_statement_size_[index] = column_count;
+  prepared_statements_[index] =
+      std::make_unique<sqlite3_prepared_statement>(stmt, std::string(sql));
 }
 
 }  // namespace bank::db
