@@ -10,8 +10,9 @@ target_include_directories(bank
         ${CMAKE_BINARY_DIR}
         ${PUBLIC_INCLUDES}
         database
+        common
         PRIVATE
         ${CMAKE_CURRENT_BINARY_DIR}
 )
 
-target_link_libraries(bank PUBLIC database)
+target_link_libraries(bank PUBLIC database common)

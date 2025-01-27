@@ -10,6 +10,7 @@ target_include_directories(database
         ${CMAKE_BINARY_DIR}
         ${PUBLIC_INCLUDES}
         sqlite3
+        common
         PRIVATE
         ${CMAKE_CURRENT_BINARY_DIR}
 )

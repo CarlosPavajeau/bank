@@ -5,12 +5,15 @@
 
 #include "db_connection.h"
 #include "field.h"
+#include "git_revision.h"
 #include "prepared_statement.h"
 #include "query_result.h"
 
 int main()
 {
   bank::db::db_connection db_connection("test.db");
+
+  std::cout << "git hash: " << git_revision::get_hash() << std::endl;
 
   if (!db_connection.open()) {
     std::cerr << "Failed to open database connection" << std::endl;
