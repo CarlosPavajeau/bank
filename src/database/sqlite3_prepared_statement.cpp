@@ -83,7 +83,7 @@ void sqlite3_prepared_statement::set_parameter(const uint8_t index,
                     index,
                     value.data(),
                     static_cast<int>(value.size()),
-                    nullptr);
+                    SQLITE_STATIC);
 }
 
 }  // namespace bank::db
