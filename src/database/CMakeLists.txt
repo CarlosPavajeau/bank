@@ -15,4 +15,4 @@ target_include_directories(database
         ${CMAKE_CURRENT_BINARY_DIR}
 )
 
-target_link_libraries(database PUBLIC sqlite3)
+target_link_libraries(database PUBLIC sqlite3 common)
