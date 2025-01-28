@@ -1,9 +1,10 @@
 #ifndef PREPARED_STATEMENT_H
 #define PREPARED_STATEMENT_H
-#include <cstdint>
 #include <string>
 #include <variant>
 #include <vector>
+
+#include "define.h"
 
 namespace bank::db
 {
@@ -15,20 +16,20 @@ struct prepared_statement_data
 class prepared_statement final
 {
 public:
-  explicit prepared_statement(uint32_t index, uint8_t capacity);
+  explicit prepared_statement(uint32 index, uint8 capacity);
   ~prepared_statement() = default;
 
   prepared_statement(const prepared_statement&) = delete;
   prepared_statement& operator=(const prepared_statement&) = delete;
 
-  void set_null(uint8_t index);
-  void set_bool(uint8_t index, bool value);
-  void set_int(uint8_t index, int value);
-  void set_double(uint8_t index, double value);
-  void set_string(uint8_t index, std::string&& value);
-  void set_string(uint8_t index, std::string_view value);
+  void set_null(uint8 index);
+  void set_bool(uint8 index, bool value);
+  void set_int(uint8 index, int value);
+  void set_double(uint8 index, double value);
+  void set_string(uint8 index, std::string&& value);
+  void set_string(uint8 index, std::string_view value);
 
-  [[nodiscard]] uint32_t get_index() const { return index_; }
+  [[nodiscard]] uint32 get_index() const { return index_; }
 
   [[nodiscard]] std::vector<prepared_statement_data> const& get_parameters()
       const
@@ -37,7 +38,7 @@ public:
   }
 
 protected:
-  uint32_t index_;
+  uint32 index_;
 
   std::vector<prepared_statement_data> data_;
 };

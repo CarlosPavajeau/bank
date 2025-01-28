@@ -1,4 +1,3 @@
-#include <charconv>
 #include <stdexcept>
 
 #include "field.h"
@@ -50,7 +49,7 @@ std::string field::get_string() const
   return reinterpret_cast<const char*>(result);
 }
 
-void field::set_value(sqlite3_value* new_value, const uint8_t type)
+void field::set_value(sqlite3_value* new_value, const uint8 type)
 {
   value_ = new_value;
   kind_ = static_cast<field_kind>(type);

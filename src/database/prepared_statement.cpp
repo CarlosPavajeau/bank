@@ -4,49 +4,48 @@
 
 namespace bank::db
 {
-prepared_statement::prepared_statement(const uint32_t index,
-                                       const uint8_t capacity)
+prepared_statement::prepared_statement(const uint32 index, const uint8 capacity)
     : index_(index)
     , data_(capacity)
 {
 }
 
-void prepared_statement::set_null(const uint8_t index)
+void prepared_statement::set_null(const uint8 index)
 {
   assert(index < data_.size());
 
   data_[index].data = nullptr;
 }
 
-void prepared_statement::set_bool(const uint8_t index, bool value)
+void prepared_statement::set_bool(const uint8 index, bool value)
 {
   assert(index < data_.size());
 
   data_[index].data = value;
 }
 
-void prepared_statement::set_int(const uint8_t index, const int value)
+void prepared_statement::set_int(const uint8 index, const int value)
 {
   assert(index < data_.size());
 
   data_[index].data = value;
 }
 
-void prepared_statement::set_double(const uint8_t index, const double value)
+void prepared_statement::set_double(const uint8 index, const double value)
 {
   assert(index < data_.size());
 
   data_[index].data = value;
 }
 
-void prepared_statement::set_string(const uint8_t index, std::string&& value)
+void prepared_statement::set_string(const uint8 index, std::string&& value)
 {
   assert(index < data_.size());
 
   data_[index].data = std::move(value);
 }
 
-void prepared_statement::set_string(const uint8_t index, std::string_view value)
+void prepared_statement::set_string(const uint8 index, std::string_view value)
 {
   assert(index < data_.size());
 

@@ -1,6 +1,7 @@
 #ifndef QUERY_RESULT_H
 #define QUERY_RESULT_H
-#include <cstdint>
+
+#include "define.h"
 
 typedef struct sqlite3_stmt sqlite3_stmt;
 
@@ -12,7 +13,7 @@ class field;
 class query_result
 {
 public:
-  query_result(sqlite3_stmt* stmt, uint32_t column_count);
+  query_result(sqlite3_stmt* stmt, uint32 column_count);
   ~query_result();
 
   query_result(const query_result&) = delete;
@@ -24,7 +25,7 @@ public:
 
 private:
   sqlite3_stmt* stmt_ = nullptr;
-  uint32_t column_count_ = 0;
+  uint32 column_count_ = 0;
 
   field* current_ = nullptr;
 

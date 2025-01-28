@@ -1,13 +1,14 @@
 #ifndef FIELD_H
 #define FIELD_H
-#include <cstdint>
 #include <string>
+
+#include "define.h"
 
 typedef struct sqlite3_value sqlite3_value;
 
 namespace bank::db
 {
-enum class field_kind : uint8_t
+enum class field_kind : uint8
 {
   none = 0,
   integer = 1,
@@ -33,7 +34,7 @@ private:
   field_kind kind_ = field_kind::none;
   sqlite3_value* value_ = nullptr;
 
-  void set_value(sqlite3_value* new_value, uint8_t type);
+  void set_value(sqlite3_value* new_value, uint8 type);
 };
 }  // namespace bank::db
 

@@ -4,6 +4,8 @@
 #include <string_view>
 #include <vector>
 
+#include "define.h"
+
 typedef struct sqlite3 sqlite3;
 
 namespace bank::db
@@ -13,7 +15,7 @@ class query_result;
 class sqlite3_prepared_statement;
 class prepared_statement;
 
-enum db_statements : uint32_t
+enum db_statements : uint32
 {
   select_test_data,
 
@@ -35,12 +37,12 @@ public:
 
   void prepare_statements();
 
-  prepared_statement* get_prepared_statement(uint32_t index);
+  prepared_statement* get_prepared_statement(uint32 index);
 
 protected:
   [[nodiscard]] sqlite3_prepared_statement* get_prepared_statement(
-      uint32_t index) const;
-  void prepare_statement(uint32_t index, std::string_view sql);
+      uint32 index) const;
+  void prepare_statement(uint32 index, std::string_view sql);
 
   typedef std::vector<std::unique_ptr<sqlite3_prepared_statement>>
       prepared_statement_container;
@@ -50,7 +52,7 @@ private:
   sqlite3* db_;
   std::string_view db_name_;
 
-  std::vector<uint32_t> prepared_statement_size_;
+  std::vector<uint32> prepared_statement_size_;
 
   static int db_callback(void* data, int argc, char** argv, char** azColName);
 };

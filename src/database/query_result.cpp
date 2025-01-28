@@ -5,7 +5,7 @@
 
 namespace bank::db
 {
-query_result::query_result(sqlite3_stmt* stmt, const uint32_t column_count)
+query_result::query_result(sqlite3_stmt* stmt, const uint32 column_count)
     : stmt_(stmt)
     , column_count_(column_count)
 {

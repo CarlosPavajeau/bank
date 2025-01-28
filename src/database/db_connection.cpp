@@ -109,13 +109,13 @@ void db_connection::prepare_statements()
   prepare_statement(select_test_data, "SELECT * FROM test WHERE id = ?");
 }
 
-prepared_statement* db_connection::get_prepared_statement(const uint32_t index)
+prepared_statement* db_connection::get_prepared_statement(const uint32 index)
 {
   return new prepared_statement(index, prepared_statement_size_[index]);
 }
 
 sqlite3_prepared_statement* db_connection::get_prepared_statement(
-    const uint32_t index) const
+    const uint32 index) const
 {
   assert(index < prepared_statements_.size());
 
@@ -124,7 +124,7 @@ sqlite3_prepared_statement* db_connection::get_prepared_statement(
   return ret;
 }
 
-void db_connection::prepare_statement(const uint32_t index,
+void db_connection::prepare_statement(const uint32 index,
                                       const std::string_view sql)
 {
   assert(index < prepared_statements_.size());
