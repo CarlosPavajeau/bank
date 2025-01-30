@@ -17,7 +17,8 @@ class prepared_statement;
 
 enum db_statements : uint32
 {
-  select_test_data,
+  insert_account,
+  select_account,
 
   max_db_statements
 };

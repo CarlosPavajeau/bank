@@ -106,7 +106,13 @@ void db_connection::prepare_statements()
   prepared_statements_.resize(max_db_statements);
   prepared_statement_size_.resize(max_db_statements);
 
-  prepare_statement(select_test_data, "SELECT * FROM test WHERE id = ?");
+  prepare_statement(
+      insert_account,
+      "INSERT INTO account(username, password, email) VALUES(?, ?, ?)");
+
+  prepare_statement(select_account,
+                    "SELECT id, username, password, email, "
+                    "unixepoch(created_at) FROM " "account WHERE id = ?");
 }
 
 prepared_statement* db_connection::get_prepared_statement(const uint32 index)
