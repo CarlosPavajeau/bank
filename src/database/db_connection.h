@@ -33,6 +33,7 @@ public:
   bool close();
 
   [[nodiscard]] int execute(std::string_view statement) const;
+  [[nodiscard]] int execute(prepared_statement* stmt) const;
   [[nodiscard]] query_result* query(std::string_view statement) const;
   [[nodiscard]] query_result* query(prepared_statement* stmt) const;
 

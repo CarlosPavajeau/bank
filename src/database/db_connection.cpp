@@ -72,6 +72,24 @@ int db_connection::execute(const std::string_view statement) const
   return result;
 }
 
+int db_connection::execute(prepared_statement* stmt) const
+{
+  assert(db_ != nullptr);
+
+  const auto index = stmt->get_index();
+
+  const auto sqlite3_prepared_statement = get_prepared_statement(index);
+  assert(sqlite3_prepared_statement);
+
+  sqlite3_prepared_statement->bind_parameters(stmt);
+
+  const auto sqlite_stmt = sqlite3_prepared_statement->get_stmt();
+
+  const auto result = sqlite3_step(sqlite_stmt);
+
+  return result;
+}
+
 query_result* db_connection::query(const std::string_view statement) const
 {
   assert(db_ != nullptr);
