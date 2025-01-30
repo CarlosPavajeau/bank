@@ -4,12 +4,11 @@
 
 #include <sqlite3.h>
 
+#include "account.h"
+#include "account_repository.h"
 #include "db_connection.h"
 #include "db_updater.h"
-#include "field.h"
 #include "git_revision.h"
-#include "prepared_statement.h"
-#include "query_result.h"
 
 int main()
 {
@@ -23,26 +22,26 @@ int main()
   }
 
   bank::db::db_updater::update(db_connection);
-
   db_connection.prepare_statements();
 
-  const auto ps =
-      db_connection.get_prepared_statement(bank::db::select_test_data);
-  ps->set_int(0, 1);
+  const bank::account_repository account_repository(&db_connection);
+  const bank::entities::account account {
+      0, "admin", "admin", "admin@admin.com", 0};
 
-  const auto query_result = db_connection.query(ps);
+  if (const auto save_result = account_repository.save_account(account);
+      !save_result)
+  {
+    std::cerr << "[ERROR]: failed to save account" << std::endl;
+  }
 
-  while (query_result->next()) {
-    const auto row = query_result->fetch();
-
-    const int id = row[0].get_int();
-    const auto name = row[1].get_string();
-
-    std::cout << std::format("[INFO]: data read \n{}\n id: {}\n name: {}\n{}",
-                             std::string(15, '*'),
-                             id,
-                             name,
-                             std::string(15, '*'))
+  if (const auto found_account = account_repository.find_account(3);
+      !found_account)
+  {
+    std::cerr << "[ERROR]: account not found" << std::endl;
+  } else {
+    std::cout << std::format("[INFO]: account {}, email {}",
+                             found_account->username,
+                             found_account->email)
               << std::endl;
   }
 
