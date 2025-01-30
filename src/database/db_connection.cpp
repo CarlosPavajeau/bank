@@ -138,6 +138,21 @@ prepared_statement* db_connection::get_prepared_statement(const uint32 index)
   return new prepared_statement(index, prepared_statement_size_[index]);
 }
 
+void db_connection::begin_transaction() const
+{
+  [[maybe_unused]] auto _ = execute("BEGIN TRANSACTION");
+}
+
+void db_connection::commit_transaction() const
+{
+  [[maybe_unused]] auto _ = execute("COMMIT TRANSACTION");
+}
+
+void db_connection::rollback_transaction() const
+{
+  [[maybe_unused]] auto _ = execute("ROLLBACK TRANSACTION");
+}
+
 sqlite3_prepared_statement* db_connection::get_prepared_statement(
     const uint32 index) const
 {

@@ -41,6 +41,10 @@ public:
 
   prepared_statement* get_prepared_statement(uint32 index);
 
+  void begin_transaction() const;
+  void commit_transaction() const;
+  void rollback_transaction() const;
+
 protected:
   [[nodiscard]] sqlite3_prepared_statement* get_prepared_statement(
       uint32 index) const;
