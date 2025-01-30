@@ -131,9 +131,9 @@ void db_connection::prepare_statement(const uint32 index,
 
   sqlite3_stmt* stmt = nullptr;
   sqlite3_prepare_v2(db_, sql.data(), -1, &stmt, nullptr);
-  const auto column_count = sqlite3_bind_parameter_count(stmt);
+  const auto parameter_count = sqlite3_bind_parameter_count(stmt);
 
-  prepared_statement_size_[index] = column_count;
+  prepared_statement_size_[index] = parameter_count;
   prepared_statements_[index] =
       std::make_unique<sqlite3_prepared_statement>(stmt, std::string(sql));
 }
