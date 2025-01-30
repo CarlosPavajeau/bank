@@ -33,14 +33,23 @@ update_result update_fetcher::update() const
       std::cout << std::format("[INFO]: update {} is already applied",
                                query.filename().string())
                 << std::endl;
+      applied.erase(iter);
       continue;
     }
 
     uint32 speed = 0;
     const applied_file_entry applied_file = {query.filename().string(), 0};
 
+    std::cout << std::format("[INFO]: applying update {}...",
+                             query.filename().string())
+              << std::endl;
+
     speed = apply(query);
     update_entry(applied_file, speed);
+
+    std::cout << std::format(
+        "[INFO]: update {} applied in {}ms", query.filename().string(), speed)
+              << std::endl;
 
     ++imported_updates;
   }
