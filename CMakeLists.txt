@@ -32,6 +32,9 @@ include(cmake/options.cmake)
 
 include(GroupSources)
 include(AutoCollect)
+include(FindSodium)
+
+find_package(Sodium REQUIRED)
 
 if (NOT WITHOUT_GIT)
     find_package(Git 1.7)
