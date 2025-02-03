@@ -9,10 +9,16 @@
 #include "db_connection.h"
 #include "db_updater.h"
 #include "git_revision.h"
+#include "password_hasher.h"
 
 int main()
 {
   std::cout << "[INFO]: git hash: " << git_revision::get_hash() << std::endl;
+
+  const std::string password = "admin";
+  std::string hashed_password;
+
+  bank::crypto::password_hasher::encrypt(password, hashed_password);
 
   bank::db::db_connection db_connection("test.db");
 
@@ -26,7 +32,7 @@ int main()
 
   const bank::account_repository account_repository(&db_connection);
   const bank::entities::account account {
-      0, "admin", "admin", "admin@admin.com", 0};
+      0, "admin", hashed_password, "admin@admin.com", 0};
 
   if (const auto save_result = account_repository.save_account(account);
       !save_result)
