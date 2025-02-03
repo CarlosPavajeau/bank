@@ -9,9 +9,12 @@ target_include_directories(common
         PUBLIC
         ${CMAKE_BINARY_DIR}
         ${PUBLIC_INCLUDES}
+        sodium
         PRIVATE
         ${CMAKE_CURRENT_BINARY_DIR}
 )
+
+target_link_libraries(common sodium)
 
 add_dependencies(common revision_data.h)
 
