@@ -92,6 +92,8 @@ int db_connection::execute(prepared_statement* stmt) const
     LOG_ERROR("sqlite error: {}", sqlite3_errmsg(db_));
   }
 
+  sqlite3_reset(sqlite_stmt);
+
   return result;
 }
 
