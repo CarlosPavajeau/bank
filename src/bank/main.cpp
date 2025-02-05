@@ -32,13 +32,39 @@ int main()
   db_connection.prepare_statements();
 
   const bank::account_repository account_repository(&db_connection);
-  const bank::entities::account account {
-      0, "admin", hashed_password, "admin@admin.com", 0};
 
-  if (const auto save_result = account_repository.save_account(account);
+  bank::entities::account admin_account(
+      "admin", hashed_password, "admin@admin.com");
+
+  if (const auto save_result = account_repository.save_account(admin_account);
       !save_result)
   {
-    LOG_ERROR("failed to save account");
+    LOG_ERROR("failed to save account admin");
+  }
+
+  const std::string employee_password = "employee";
+  hashed_password.clear();
+  bank::crypto::password_hasher::encrypt(employee_password, hashed_password);
+
+  bank::entities::account employee_account(
+      "employee", hashed_password, "employee@employee.com");
+
+  if (const auto save_employee_result =
+          account_repository.save_account(employee_account);
+      !save_employee_result)
+  {
+    LOG_ERROR("failed to save account employee");
+  }
+
+  if (const auto found_account = account_repository.find_account(1);
+      !found_account)
+  {
+    LOG_ERROR("account not found");
+  } else {
+    LOG_INFO("account {}, email {}, balance {}",
+             found_account->username,
+             found_account->email,
+             found_account->balance);
   }
 
   if (const auto found_account = account_repository.find_account(2);
@@ -46,23 +72,10 @@ int main()
   {
     LOG_ERROR("account not found");
   } else {
-    LOG_INFO(
-        "account {}, email {}", found_account->username, found_account->email);
-  }
-
-  // insert new account for employee
-  const std::string employee_password = "employee";
-  hashed_password.clear();
-  bank::crypto::password_hasher::encrypt(employee_password, hashed_password);
-
-  const bank::entities::account employee = {
-      0, "employee", hashed_password, "employee@employee.com", 0};
-
-  if (const auto save_employee_result =
-          account_repository.save_account(employee);
-      !save_employee_result)
-  {
-    LOG_ERROR("failed to save employee account");
+    LOG_INFO("account {}, email {}, balance {}",
+             found_account->username,
+             found_account->email,
+             found_account->balance);
   }
 
   db_connection.close();
