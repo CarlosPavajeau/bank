@@ -1,7 +1,8 @@
 #include "query_result.h"
 
+#include <sqlite3.h>
+
 #include "field.h"
-#include "sqlite3.h"
 
 namespace bank::db
 {
@@ -53,6 +54,7 @@ void query_result::clean()
   }
 
   if (stmt_) {
+    sqlite3_reset(stmt_);
     stmt_ = nullptr;
   }
 }
