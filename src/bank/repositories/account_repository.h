@@ -10,7 +10,8 @@ namespace bank
 namespace db
 {
 class db_connection;
-}
+class field;
+}  // namespace db
 
 class account_repository
 {
@@ -23,6 +24,8 @@ public:
 
 private:
   db::db_connection* db_;
+
+  static entities::account from_row(const db::field* row);
 };
 }  // namespace bank
 

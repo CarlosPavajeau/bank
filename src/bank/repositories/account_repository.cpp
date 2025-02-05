@@ -45,17 +45,25 @@ std::optional<entities::account> account_repository::find_account(
 
   const auto row = result->fetch();
 
-  entities::account account {
-      static_cast<uint64>(row[0].get_int()),
-      row[1].get_string(),
-      row[2].get_string(),
-      row[3].get_string(),
-      static_cast<uint64>(row[4].get_int()),
-  };
+  auto account = from_row(row);
 
   delete result;  // free memory
 
   return std::make_optional(account);
+}
+
+entities::account account_repository::from_row(const db::field* row)
+{
+  const auto id = static_cast<uint64>(row[0].get_int());
+  const auto username = row[1].get_string();
+  const auto password = row[2].get_string();
+  const auto email = row[3].get_string();
+  const auto balance = row[4].get_decimal();
+  const auto created_at = static_cast<uint64>(row[5].get_int());
+
+  entities::account account(id, username, password, email, balance, created_at);
+
+  return account;
 }
 
 }  // namespace bank
