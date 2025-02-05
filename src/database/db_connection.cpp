@@ -67,7 +67,7 @@ int db_connection::execute(const std::string_view statement) const
                                   &error_message);
 
   if (result != SQLITE_OK) {
-    std::cerr << "sql error: " << error_message << std::endl;
+    LOG_ERROR("sqlite error: {}", error_message);
   }
 
   return result;
