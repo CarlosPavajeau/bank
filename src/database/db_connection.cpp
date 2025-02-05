@@ -136,7 +136,7 @@ void db_connection::prepare_statements()
       "INSERT INTO account(username, password, email) VALUES(?, ?, ?)");
 
   prepare_statement(select_account,
-                    "SELECT id, username, password, email, "
+                    "SELECT id, username, password, email, balance, "
                     "unixepoch(created_at) FROM " "account WHERE id = ?");
 }
 
