@@ -5,6 +5,7 @@
 #include "update_fetcher.h"
 
 #include "field.h"
+#include "logger.h"
 #include "query_result.h"
 
 namespace bank::db
@@ -30,9 +31,7 @@ update_result update_fetcher::update() const
     if (auto iter = applied.find(query.filename().string());
         iter != applied.end())
     {
-      std::cout << std::format("[INFO]: update {} is already applied",
-                               query.filename().string())
-                << std::endl;
+      LOG_INFO("update {} is already applied", query.filename().string());
       applied.erase(iter);
       continue;
     }
@@ -40,16 +39,12 @@ update_result update_fetcher::update() const
     uint32 speed = 0;
     const applied_file_entry applied_file = {query.filename().string(), 0};
 
-    std::cout << std::format("[INFO]: applying update {}...",
-                             query.filename().string())
-              << std::endl;
+    LOG_INFO("applying update {}", query.filename().string());
 
     speed = apply(query);
     update_entry(applied_file, speed);
 
-    std::cout << std::format(
-        "[INFO]: update {} applied in {}ms", query.filename().string(), speed)
-              << std::endl;
+    LOG_INFO("update {} applied in {}ms", query.filename().string(), speed);
 
     ++imported_updates;
   }

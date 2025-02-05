@@ -9,11 +9,12 @@
 #include "db_connection.h"
 #include "db_updater.h"
 #include "git_revision.h"
+#include "logger.h"
 #include "password_hasher.h"
 
 int main()
 {
-  std::cout << "[INFO]: git hash: " << git_revision::get_hash() << std::endl;
+  LOG_INFO("git hash are {}", git_revision::get_hash());
 
   const std::string password = "admin";
   std::string hashed_password;
@@ -23,7 +24,7 @@ int main()
   bank::db::db_connection db_connection("test.db");
 
   if (!db_connection.open()) {
-    std::cerr << "[ERROR]: failed to open database connection" << std::endl;
+    LOG_ERROR("failed to open database connection");
     return EXIT_FAILURE;
   }
 
@@ -37,18 +38,31 @@ int main()
   if (const auto save_result = account_repository.save_account(account);
       !save_result)
   {
-    std::cerr << "[ERROR]: failed to save account" << std::endl;
+    LOG_ERROR("failed to save account");
   }
 
-  if (const auto found_account = account_repository.find_account(3);
+  if (const auto found_account = account_repository.find_account(2);
       !found_account)
   {
-    std::cerr << "[ERROR]: account not found" << std::endl;
+    LOG_ERROR("account not found");
   } else {
-    std::cout << std::format("[INFO]: account {}, email {}",
-                             found_account->username,
-                             found_account->email)
-              << std::endl;
+    LOG_INFO(
+        "account {}, email {}", found_account->username, found_account->email);
+  }
+
+  // insert new account for employee
+  const std::string employee_password = "employee";
+  hashed_password.clear();
+  bank::crypto::password_hasher::encrypt(employee_password, hashed_password);
+
+  const bank::entities::account employee = {
+      0, "employee", hashed_password, "employee@employee.com", 0};
+
+  if (const auto save_employee_result =
+          account_repository.save_account(employee);
+      !save_employee_result)
+  {
+    LOG_ERROR("failed to save employee account");
   }
 
   db_connection.close();

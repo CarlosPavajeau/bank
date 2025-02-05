@@ -36,11 +36,11 @@ std::optional<entities::account> account_repository::find_account(
   const auto result = db_->query(select_stmt);
 
   if (result == nullptr) {
-    return {};
+    return std::nullopt;
   }
 
   if (!result->next()) {
-    return {};
+    return std::nullopt;
   }
 
   const auto row = result->fetch();
@@ -53,7 +53,7 @@ std::optional<entities::account> account_repository::find_account(
       static_cast<uint64>(row[4].get_int()),
   };
 
-  return account;
+  return std::make_optional(account);
 }
 
 }  // namespace bank

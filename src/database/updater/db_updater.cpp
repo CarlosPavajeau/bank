@@ -5,6 +5,7 @@
 
 #include "db_connection.h"
 #include "git_revision.h"
+#include "logger.h"
 #include "query_result.h"
 #include "update_fetcher.h"
 
@@ -33,12 +34,11 @@ bool db_updater::update(const db_connection& connection)
   }
 
   if (result.updated == 0) {
-    std::cout << "[INFO]: database is up-to date" << std::endl;
+    LOG_INFO("database is up-to date");
   } else {
-    std::cout << std::format("[INFO]: applied {} {}",
-                             result.updated,
-                             result.updated == 1 ? "query" : "queries")
-              << std::endl;
+    LOG_INFO("applied {} {}",
+             result.updated,
+             result.updated == 1 ? "query" : "queries");
   }
 
   return true;
