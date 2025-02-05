@@ -53,6 +53,8 @@ std::optional<entities::account> account_repository::find_account(
       static_cast<uint64>(row[4].get_int()),
   };
 
+  delete result;  // free memory
+
   return std::make_optional(account);
 }
 
