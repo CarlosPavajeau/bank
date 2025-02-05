@@ -7,6 +7,7 @@
 
 #include <sqlite3.h>
 
+#include "logger.h"
 #include "prepared_statement.h"
 #include "query_result.h"
 #include "sqlite3_prepared_statement.h"
@@ -86,6 +87,10 @@ int db_connection::execute(prepared_statement* stmt) const
   const auto sqlite_stmt = sqlite3_prepared_statement->get_stmt();
 
   const auto result = sqlite3_step(sqlite_stmt);
+
+  if (result != SQLITE_DONE) {
+    LOG_ERROR("sqlite error: {}", sqlite3_errmsg(db_));
+  }
 
   return result;
 }
