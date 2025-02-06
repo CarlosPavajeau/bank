@@ -2,9 +2,8 @@
 #define FIELD_H
 #include <string>
 
+#include "database_env.h"
 #include "define.h"
-
-typedef struct sqlite3_value sqlite3_value;
 
 namespace bank::db
 {
@@ -20,7 +19,7 @@ enum class field_kind : uint8
 
 class field
 {
-  friend class query_result;
+  friend class result_set;
 
 public:
   field() = default;

@@ -3,11 +3,11 @@
 #include <filesystem>
 #include <functional>
 
+#include "database_env.h"
 #include "define.h"
 
 namespace bank::db
 {
-class query_result;
 
 struct update_result
 {
@@ -24,13 +24,12 @@ struct update_result
 class update_fetcher
 {
   typedef std::filesystem::path path;
-  typedef query_result* query_result_ptr;
 
 public:
   update_fetcher(
       const path& source_directory,
       const std::function<void(std::string const&)>& apply,
-      const std::function<query_result_ptr(std::string const&)>& retrieve);
+      const std::function<query_result(std::string const&)>& retrieve);
   ~update_fetcher() = default;
 
   [[nodiscard]] update_result update() const;
@@ -59,7 +58,7 @@ private:
   std::unique_ptr<path> source_directory_;
 
   const std::function<void(std::string const&)> apply_;
-  const std::function<query_result_ptr(std::string const&)> retrieve_;
+  const std::function<query_result(std::string const&)> retrieve_;
 
   static constexpr auto fetch_dir = "/sql/updates";
 };

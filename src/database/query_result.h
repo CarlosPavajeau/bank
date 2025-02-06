@@ -1,23 +1,19 @@
 #ifndef QUERY_RESULT_H
 #define QUERY_RESULT_H
 
+#include "database_env.h"
 #include "define.h"
-
-typedef struct sqlite3_stmt sqlite3_stmt;
 
 namespace bank::db
 {
-
-class field;
-
-class query_result
+class result_set
 {
 public:
-  query_result(sqlite3_stmt* stmt, uint32 column_count);
-  ~query_result();
+  result_set(sqlite3_stmt* stmt, uint32 column_count);
+  ~result_set();
 
-  query_result(const query_result&) = delete;
-  query_result& operator=(const query_result&) = delete;
+  result_set(const result_set&) = delete;
+  result_set& operator=(const result_set&) = delete;
 
   [[nodiscard]] field* fetch() const { return current_; }
 

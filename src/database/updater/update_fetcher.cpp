@@ -13,7 +13,7 @@ namespace bank::db
 update_fetcher::update_fetcher(
     const path& source_directory,
     const std::function<void(std::string const&)>& apply,
-    const std::function<query_result_ptr(std::string const&)>& retrieve)
+    const std::function<query_result(std::string const&)>& retrieve)
     : source_directory_(std::make_unique<path>(source_directory))
     , apply_(apply)
     , retrieve_(retrieve)
@@ -80,8 +80,6 @@ update_fetcher::applied_file_storage update_fetcher::receive_applied_files()
 
     applied_files.insert(std::make_pair(entry.name, entry));
   }
-
-  delete query_result;  // free memory
 
   return applied_files;
 }

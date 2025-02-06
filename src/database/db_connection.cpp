@@ -97,7 +97,7 @@ int db_connection::execute(prepared_statement* stmt) const
   return result;
 }
 
-query_result* db_connection::query(const std::string_view statement) const
+query_result db_connection::query(const std::string_view statement) const
 {
   assert(db_ != nullptr);
 
@@ -106,10 +106,10 @@ query_result* db_connection::query(const std::string_view statement) const
 
   const auto column_count = sqlite3_column_count(stmt);
 
-  return new query_result(stmt, column_count);
+  return std::make_shared<result_set>(stmt, column_count);
 }
 
-query_result* db_connection::query(prepared_statement* stmt) const
+query_result db_connection::query(prepared_statement* stmt) const
 {
   assert(db_ != nullptr);
 
@@ -123,7 +123,7 @@ query_result* db_connection::query(prepared_statement* stmt) const
   const auto sqlite_stmt = sqlite3_prepared_statement->get_stmt();
   const auto column_count = sqlite3_column_count(sqlite_stmt);
 
-  return new query_result(sqlite_stmt, column_count);
+  return std::make_shared<result_set>(sqlite_stmt, column_count);
 }
 
 void db_connection::prepare_statements()

@@ -44,8 +44,8 @@ bool db_updater::update(const db_connection& connection)
   return true;
 }
 
-db_updater::query_result_ptr db_updater::retrieve(
-    const db_connection& connection, const std::string_view query)
+query_result db_updater::retrieve(const db_connection& connection,
+                                  const std::string_view query)
 {
   const auto result = connection.query(query);
 

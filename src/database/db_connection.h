@@ -4,16 +4,11 @@
 #include <string_view>
 #include <vector>
 
+#include "database_env.h"
 #include "define.h"
-
-typedef struct sqlite3 sqlite3;
 
 namespace bank::db
 {
-
-class query_result;
-class sqlite3_prepared_statement;
-class prepared_statement;
 
 enum db_statements : uint32
 {
@@ -34,8 +29,8 @@ public:
 
   [[nodiscard]] int execute(std::string_view statement) const;
   [[nodiscard]] int execute(prepared_statement* stmt) const;
-  [[nodiscard]] query_result* query(std::string_view statement) const;
-  [[nodiscard]] query_result* query(prepared_statement* stmt) const;
+  [[nodiscard]] query_result query(std::string_view statement) const;
+  [[nodiscard]] query_result query(prepared_statement* stmt) const;
 
   void prepare_statements();
 

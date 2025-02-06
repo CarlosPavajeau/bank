@@ -6,19 +6,19 @@
 
 namespace bank::db
 {
-query_result::query_result(sqlite3_stmt* stmt, const uint32 column_count)
+result_set::result_set(sqlite3_stmt* stmt, const uint32 column_count)
     : stmt_(stmt)
     , column_count_(column_count)
 {
   current_ = new field[column_count_];
 }
 
-query_result::~query_result()
+result_set::~result_set()
 {
   clean();
 }
 
-bool query_result::next()
+bool result_set::next()
 {
   if (!stmt_) {
     return false;
@@ -46,7 +46,7 @@ bool query_result::next()
   return true;
 }
 
-void query_result::clean()
+void result_set::clean()
 {
   if (current_) {
     delete[] current_;

@@ -2,9 +2,8 @@
 #define SQLITE3_PREPARED_STATEMENT_H
 #include <string>
 
+#include "database_env.h"
 #include "define.h"
-
-typedef struct sqlite3_stmt sqlite3_stmt;
 
 namespace bank::db
 {
