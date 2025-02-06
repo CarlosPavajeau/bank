@@ -4,14 +4,14 @@
 #include "query_result.h"
 #include "sqlite3.h"
 
-TEST(bank, init_db)
+TEST(database, init_db)
 {
   bank::db::db_connection connection(":memory:");
 
   ASSERT_EQ(connection.open(), true) << "Failed to open db connection";
 }
 
-TEST(bank, close_db)
+TEST(database, close_db)
 {
   bank::db::db_connection connection(":memory:");
 
@@ -19,7 +19,7 @@ TEST(bank, close_db)
   ASSERT_EQ(connection.close(), true) << "Failed to close db connection";
 }
 
-TEST(bank, perform_a_query)
+TEST(database, perform_a_query)
 {
   bank::db::db_connection connection(":memory:");
 
