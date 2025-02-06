@@ -3,15 +3,10 @@
 #include <optional>
 
 #include "account.h"
+#include "database_env.h"
 
 namespace bank
 {
-
-namespace db
-{
-class db_connection;
-class field;
-}  // namespace db
 
 class account_repository
 {

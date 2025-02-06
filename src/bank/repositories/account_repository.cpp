@@ -47,8 +47,6 @@ std::optional<entities::account> account_repository::find_account(
 
   auto account = from_row(row);
 
-  delete result;  // free memory
-
   return std::make_optional(account);
 }
 
