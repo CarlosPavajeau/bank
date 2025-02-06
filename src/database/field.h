@@ -25,7 +25,16 @@ public:
   field() = default;
   ~field() = default;
 
-  [[nodiscard]] int get_int() const;
+  [[nodiscard]] int8 get_int8() const;
+  [[nodiscard]] int16 get_int16() const;
+  [[nodiscard]] int32 get_int32() const;
+  [[nodiscard]] int64 get_int64() const;
+
+  [[nodiscard]] uint8 get_uint8() const;
+  [[nodiscard]] uint16 get_uint16() const;
+  [[nodiscard]] uint32 get_uint32() const;
+  [[nodiscard]] uint64 get_uint64() const;
+
   [[nodiscard]] double get_decimal() const;
   [[nodiscard]] std::string get_string() const;
 

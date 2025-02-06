@@ -59,11 +59,67 @@ void sqlite3_prepared_statement::set_parameter(const uint8 index,
 }
 
 void sqlite3_prepared_statement::set_parameter(const uint8 index,
-                                               const int value) const
+                                               const int8 value) const
 {
   assert(index <= param_count_);
 
   sqlite3_bind_int(sqlite3_stmt_, index, value);
+}
+
+void sqlite3_prepared_statement::set_parameter(const uint8 index,
+                                               const int16 value) const
+{
+  assert(index <= param_count_);
+
+  sqlite3_bind_int(sqlite3_stmt_, index, value);
+}
+
+void sqlite3_prepared_statement::set_parameter(const uint8 index,
+                                               const int32 value) const
+{
+  assert(index <= param_count_);
+
+  sqlite3_bind_int(sqlite3_stmt_, index, value);
+}
+
+void sqlite3_prepared_statement::set_parameter(const uint8 index,
+                                               const int64 value) const
+{
+  assert(index <= param_count_);
+
+  sqlite3_bind_int64(sqlite3_stmt_, index, value);
+}
+
+void sqlite3_prepared_statement::set_parameter(const uint8 index,
+                                               const uint8 value) const
+{
+  assert(index <= param_count_);
+
+  sqlite3_bind_int(sqlite3_stmt_, index, value);
+}
+
+void sqlite3_prepared_statement::set_parameter(const uint8 index,
+                                               const uint16 value) const
+{
+  assert(index <= param_count_);
+
+  sqlite3_bind_int(sqlite3_stmt_, index, value);
+}
+
+void sqlite3_prepared_statement::set_parameter(const uint8 index,
+                                               const uint32 value) const
+{
+  assert(index <= param_count_);
+
+  sqlite3_bind_int64(sqlite3_stmt_, index, value);
+}
+
+void sqlite3_prepared_statement::set_parameter(const uint8 index,
+                                               const uint64 value) const
+{
+  assert(index <= param_count_);
+
+  sqlite3_bind_int64(sqlite3_stmt_, index, static_cast<sqlite3_int64>(value));
 }
 
 void sqlite3_prepared_statement::set_parameter(const uint8 index,

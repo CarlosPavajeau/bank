@@ -24,7 +24,56 @@ void prepared_statement::set_bool(const uint8 index, bool value)
   data_[index].data = value;
 }
 
-void prepared_statement::set_int(const uint8 index, const int value)
+void prepared_statement::set_int8(const uint8 index, const int8 value)
+{
+  assert(index < data_.size());
+
+  data_[index].data = value;
+}
+
+void prepared_statement::set_int16(const uint8 index, const int16 value)
+{
+  assert(index < data_.size());
+
+  data_[index].data = value;
+}
+
+void prepared_statement::set_int32(const uint8 index, const int32 value)
+{
+  assert(index < data_.size());
+
+  data_[index].data = value;
+}
+
+void prepared_statement::set_int64(const uint8 index, const int64 value)
+{
+  assert(index < data_.size());
+
+  data_[index].data = value;
+}
+
+void prepared_statement::set_uint8(const uint8 index, const uint8 value)
+{
+  assert(index < data_.size());
+
+  data_[index].data = value;
+}
+
+void prepared_statement::set_uint16(const uint8 index, const uint16 value)
+{
+  assert(index < data_.size());
+
+  data_[index].data = value;
+}
+
+void prepared_statement::set_uint32(const uint8 index, const uint32 value)
+{
+  assert(index < data_.size());
+
+  data_[index].data = value;
+}
+
+void prepared_statement::set_uint64(const uint8 index, const uint64 value)
 {
   assert(index < data_.size());
 

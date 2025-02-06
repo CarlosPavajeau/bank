@@ -31,7 +31,7 @@ std::optional<entities::account> account_repository::find_account(
 {
   const auto select_stmt = db_->get_prepared_statement(db::select_account);
 
-  select_stmt->set_int(0, static_cast<int>(id));
+  select_stmt->set_uint64(0, id);
 
   const auto result = db_->query(select_stmt);
 
@@ -52,12 +52,12 @@ std::optional<entities::account> account_repository::find_account(
 
 entities::account account_repository::from_row(const db::field* row)
 {
-  const auto id = static_cast<uint64>(row[0].get_int());
+  const auto id = row[0].get_int64();
   const auto username = row[1].get_string();
   const auto password = row[2].get_string();
   const auto email = row[3].get_string();
   const auto balance = row[4].get_decimal();
-  const auto created_at = static_cast<uint64>(row[5].get_int());
+  const auto created_at = row[5].get_int64();
 
   entities::account account(id, username, password, email, balance, created_at);
 

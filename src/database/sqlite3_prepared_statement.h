@@ -31,7 +31,17 @@ public:
 protected:
   void set_parameter(uint8 index, std::nullptr_t) const;
   void set_parameter(uint8 index, bool value) const;
-  void set_parameter(uint8 index, int value) const;
+
+  void set_parameter(uint8 index, int8 value) const;
+  void set_parameter(uint8 index, int16 value) const;
+  void set_parameter(uint8 index, int32 value) const;
+  void set_parameter(uint8 index, int64 value) const;
+
+  void set_parameter(uint8 index, uint8 value) const;
+  void set_parameter(uint8 index, uint16 value) const;
+  void set_parameter(uint8 index, uint32 value) const;
+  void set_parameter(uint8 index, uint64 value) const;
+
   void set_parameter(uint8 index, double value) const;
   void set_parameter(uint8 index, std::string const& value) const;
 

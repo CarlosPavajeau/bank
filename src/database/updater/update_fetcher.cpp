@@ -76,7 +76,7 @@ update_fetcher::applied_file_storage update_fetcher::receive_applied_files()
   while (query_result->next()) {
     const auto fields = query_result->fetch();
     const applied_file_entry entry = {fields[0].get_string(),
-                                      static_cast<uint64>(fields[1].get_int())};
+                                      (fields[1].get_uint64())};
 
     applied_files.insert(std::make_pair(entry.name, entry));
   }

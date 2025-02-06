@@ -10,7 +10,19 @@ namespace bank::db
 {
 struct prepared_statement_data
 {
-  std::variant<bool, int, double, std::string, std::nullptr_t> data;
+  std::variant<bool,
+               int8,
+               int16,
+               int32,
+               int64,
+               uint8,
+               uint16,
+               uint32,
+               uint64,
+               double,
+               std::string,
+               std::nullptr_t>
+      data;
 };
 
 class prepared_statement final
@@ -24,8 +36,19 @@ public:
 
   void set_null(uint8 index);
   void set_bool(uint8 index, bool value);
-  void set_int(uint8 index, int value);
+
+  void set_int8(uint8 index, int8 value);
+  void set_int16(uint8 index, int16 value);
+  void set_int32(uint8 index, int32 value);
+  void set_int64(uint8 index, int64 value);
+
+  void set_uint8(uint8 index, uint8 value);
+  void set_uint16(uint8 index, uint16 value);
+  void set_uint32(uint8 index, uint32 value);
+  void set_uint64(uint8 index, uint64 value);
+
   void set_double(uint8 index, double value);
+
   void set_string(uint8 index, std::string&& value);
   void set_string(uint8 index, std::string_view value);
 
