@@ -17,6 +17,13 @@ public:
   [[nodiscard]] bool save_account(const entities::account& account) const;
   [[nodiscard]] std::optional<entities::account> find_account(uint64 id) const;
 
+  [[nodiscard]] bool delete_account(uint64 id) const;
+  [[nodiscard]] bool make_transaction(
+      const entities::account_transaction& transaction) const;
+
+  // [[nodiscard]] bool check_password(uint64 id, std::string_view password)
+  // const;
+
 private:
   db::db_connection* db_;
 
