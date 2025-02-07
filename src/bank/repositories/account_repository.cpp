@@ -13,7 +13,7 @@ account_repository::account_repository(db::db_connection* db)
 {
 }
 
-bool account_repository::save_account(const entities::account& account) const
+bool account_repository::save(const entities::account& account) const
 {
   const auto insert_stmt = db_->get_prepared_statement(db::insert_account);
 
@@ -26,7 +26,7 @@ bool account_repository::save_account(const entities::account& account) const
   return result == SQLITE_DONE;
 }
 
-std::optional<entities::account> account_repository::find_account(
+std::optional<entities::account> account_repository::find(
     const uint64 id) const
 {
   const auto select_stmt = db_->get_prepared_statement(db::select_account);
@@ -50,7 +50,7 @@ std::optional<entities::account> account_repository::find_account(
   return std::make_optional(account);
 }
 
-bool account_repository::delete_account(const uint64 id) const
+bool account_repository::remove(const uint64 id) const
 {
   db_->begin_transaction();
 
@@ -73,7 +73,7 @@ bool account_repository::make_transaction(
 {
   db_->begin_transaction();
 
-  const auto account = find_account(transaction.account_id);
+  const auto account = find(transaction.account_id);
 
   if (!account) {
     db_->rollback_transaction();

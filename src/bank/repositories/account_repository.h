@@ -14,10 +14,10 @@ public:
   explicit account_repository(db::db_connection* db);
   ~account_repository() = default;
 
-  [[nodiscard]] bool save_account(const entities::account& account) const;
-  [[nodiscard]] std::optional<entities::account> find_account(uint64 id) const;
+  [[nodiscard]] bool save(const entities::account& account) const;
+  [[nodiscard]] std::optional<entities::account> find(uint64 id) const;
 
-  [[nodiscard]] bool delete_account(uint64 id) const;
+  [[nodiscard]] bool remove(uint64 id) const;
   [[nodiscard]] bool make_transaction(
       const entities::account_transaction& transaction) const;
 
