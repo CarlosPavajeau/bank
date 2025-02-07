@@ -1,6 +1,6 @@
 #include <gtest/gtest.h>
 
-#include "database/db_connection.h"
+#include "db_connection.h"
 #include "query_result.h"
 #include "sqlite3.h"
 
