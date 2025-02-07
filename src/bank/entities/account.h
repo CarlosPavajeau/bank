@@ -11,25 +11,25 @@ struct account
 {
   account() = default;
 
-  account(const uint64 id,
-          std::string username,
-          std::string password,
-          std::string email,
-          const double balance,
-          const uint64 created_at)
-      : id(id)
-      , username(std::move(username))
-      , password(std::move(password))
-      , email(std::move(email))
-      , balance(balance)
-      , created_at(created_at)
+  account(const uint64 id_,
+          std::string username_,
+          std::string password_,
+          std::string email_,
+          const double balance_,
+          const uint64 created_at_)
+      : id(id_)
+      , username(std::move(username_))
+      , password(std::move(password_))
+      , email(std::move(email_))
+      , balance(balance_)
+      , created_at(created_at_)
   {
   }
 
-  account(std::string username, std::string password, std::string email)
-      : username(std::move(username))
-      , password(std::move(password))
-      , email(std::move(email))
+  account(std::string username_, std::string password_, std::string email_)
+      : username(std::move(username_))
+      , password(std::move(password_))
+      , email(std::move(email_))
   {
   }
 
@@ -42,13 +42,52 @@ struct account
   uint64 created_at = 0;
 };
 
+enum class account_transaction_kind : uint8
+{
+  in,
+  out
+};
+
+inline std::string_view to_string(const account_transaction_kind kind) noexcept
+{
+  switch (kind) {
+    case account_transaction_kind::in:
+      return "IN";
+    case account_transaction_kind::out:
+      return "OUT";
+  }
+  return "UNKNOWN";
+}
+
 struct account_transaction
 {
-  uint64 id;
-  double amount;
-  std::string kind;
+  account_transaction() = default;
 
-  std::string account_id;
+  account_transaction(const uint64 id_,
+                      const double amount_,
+                      const account_transaction_kind kind_,
+                      const uint64 account_id_)
+      : id(id_)
+      , amount(amount_)
+      , kind(kind_)
+      , account_id(account_id_)
+  {
+  }
+
+  account_transaction(const double amount_,
+                      const account_transaction_kind kind_,
+                      const uint64 account_id_)
+      : amount(amount_)
+      , kind(kind_)
+      , account_id(account_id_)
+  {
+  }
+
+  uint64 id = 0;
+  double amount = 0;
+  account_transaction_kind kind = account_transaction_kind::in;
+
+  uint64 account_id = 0;
 };
 }  // namespace bank::entities
 
