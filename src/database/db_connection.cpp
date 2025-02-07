@@ -1,7 +1,6 @@
 #include <cassert>
 #include <iostream>
 #include <ostream>
-#include <stdexcept>
 
 #include "db_connection.h"
 
@@ -138,6 +137,15 @@ void db_connection::prepare_statements()
   prepare_statement(select_account,
                     "SELECT id, username, password, email, balance, "
                     "unixepoch(created_at) FROM " "account WHERE id = ?");
+
+  prepare_statement(delete_account, "DELETE FROM account WHERE id = ?");
+
+  prepare_statement(update_account_balance,
+                    "UPDATE account SET balance = ? WHERE id = ?");
+
+  prepare_statement(insert_account_transaction,
+                    "INSERT INTO account_transaction(account_id, amount, kind) "
+                    "VALUES(?, ?, ?)");
 }
 
 prepared_statement* db_connection::get_prepared_statement(const uint32 index)

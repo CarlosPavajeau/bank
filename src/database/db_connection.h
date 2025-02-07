@@ -14,6 +14,10 @@ enum db_statements : uint32
 {
   insert_account,
   select_account,
+  delete_account,
+  update_account_balance,
+
+  insert_account_transaction,
 
   max_db_statements
 };
