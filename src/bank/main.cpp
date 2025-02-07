@@ -1,5 +1,4 @@
 #include <format>
-#include <iostream>
 
 #include <sqlite3.h>
 
@@ -55,9 +54,7 @@ int main()
     LOG_ERROR("failed to save account employee");
   }
 
-  if (const auto found_account = account_repository.find(1);
-      !found_account)
-  {
+  if (const auto found_account = account_repository.find(1); !found_account) {
     LOG_ERROR("account not found");
   } else {
     LOG_INFO("account {}, email {}, balance {}",
@@ -66,9 +63,7 @@ int main()
              found_account->balance);
   }
 
-  if (const auto found_account = account_repository.find(2);
-      !found_account)
-  {
+  if (const auto found_account = account_repository.find(2); !found_account) {
     LOG_ERROR("account not found");
   } else {
     LOG_INFO("account {}, email {}, balance {}",
