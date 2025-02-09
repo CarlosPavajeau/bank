@@ -21,8 +21,7 @@ public:
   [[nodiscard]] bool make_transaction(
       const entities::account_transaction& transaction) const;
 
-  // [[nodiscard]] bool check_password(uint64 id, std::string_view password)
-  // const;
+  [[nodiscard]] bool check_password(uint64 id, std::string_view password) const;
 
 private:
   db::db_connection* db_;

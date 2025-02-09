@@ -2,6 +2,7 @@
 
 #include "db_connection.h"
 #include "field.h"
+#include "password_hasher.h"
 #include "prepared_statement.h"
 #include "query_result.h"
 #include "sqlite3.h"
@@ -26,8 +27,7 @@ bool account_repository::save(const entities::account& account) const
   return result == SQLITE_DONE;
 }
 
-std::optional<entities::account> account_repository::find(
-    const uint64 id) const
+std::optional<entities::account> account_repository::find(const uint64 id) const
 {
   const auto select_stmt = db_->get_prepared_statement(db::select_account);
 
@@ -122,6 +122,21 @@ bool account_repository::make_transaction(
   db_->commit_transaction();
 
   return true;
+}
+
+bool account_repository::check_password(const uint64 id,
+                                        const std::string_view password) const
+{
+  const auto account = find(id);
+
+  if (!account) {
+    return false;
+  }
+
+  const auto result =
+      crypto::password_hasher::verify(account->password, password);
+
+  return result;
 }
 
 entities::account account_repository::from_row(const db::field* row)
