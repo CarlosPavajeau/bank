@@ -1,5 +1,4 @@
-#include "account_repository.h"
-
+#include "account_manager.h"
 #include "db_connection.h"
 #include "field.h"
 #include "password_hasher.h"
@@ -9,12 +8,12 @@
 
 namespace bank
 {
-account_repository::account_repository(db::db_connection* db)
+account_manager::account_manager(db::db_connection* db)
     : db_(db)
 {
 }
 
-bool account_repository::save(const entities::account& account) const
+bool account_manager::save(const entities::account& account) const
 {
   const auto insert_stmt = db_->get_prepared_statement(db::insert_account);
 
@@ -27,7 +26,7 @@ bool account_repository::save(const entities::account& account) const
   return result == SQLITE_DONE;
 }
 
-std::optional<entities::account> account_repository::find(const uint64 id) const
+std::optional<entities::account> account_manager::find(const uint64 id) const
 {
   const auto select_stmt = db_->get_prepared_statement(db::select_account);
 
@@ -50,7 +49,7 @@ std::optional<entities::account> account_repository::find(const uint64 id) const
   return std::make_optional(account);
 }
 
-bool account_repository::remove(const uint64 id) const
+bool account_manager::remove(const uint64 id) const
 {
   db_->begin_transaction();
 
@@ -68,7 +67,7 @@ bool account_repository::remove(const uint64 id) const
   return true;
 }
 
-bool account_repository::make_transaction(
+bool account_manager::make_transaction(
     const entities::account_transaction& transaction) const
 {
   db_->begin_transaction();
@@ -124,7 +123,7 @@ bool account_repository::make_transaction(
   return true;
 }
 
-bool account_repository::check_password(const uint64 id,
+bool account_manager::check_password(const uint64 id,
                                         const std::string_view password) const
 {
   const auto account = find(id);
@@ -139,7 +138,7 @@ bool account_repository::check_password(const uint64 id,
   return result;
 }
 
-entities::account account_repository::from_row(const db::field* row)
+entities::account account_manager::from_row(const db::field* row)
 {
   const auto id = row[0].get_int64();
   const auto username = row[1].get_string();

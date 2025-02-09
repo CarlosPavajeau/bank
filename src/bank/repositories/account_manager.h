@@ -1,5 +1,5 @@
-#ifndef ACCOUNT_REPOSITORY_H
-#define ACCOUNT_REPOSITORY_H
+#ifndef ACCOUNT_MANAGER_H
+#define ACCOUNT_MANAGER_H
 #include <optional>
 
 #include "account.h"
@@ -8,11 +8,11 @@
 namespace bank
 {
 
-class account_repository
+class account_manager
 {
 public:
-  explicit account_repository(db::db_connection* db);
-  ~account_repository() = default;
+  explicit account_manager(db::db_connection* db);
+  ~account_manager() = default;
 
   [[nodiscard]] bool save(const entities::account& account) const;
   [[nodiscard]] std::optional<entities::account> find(uint64 id) const;
@@ -30,4 +30,4 @@ private:
 };
 }  // namespace bank
 
-#endif  // ACCOUNT_REPOSITORY_H
+#endif  // ACCOUNT_MANAGER_H
