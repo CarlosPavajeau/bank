@@ -26,6 +26,8 @@ int main()
     return EXIT_FAILURE;
   }
 
+  bank::db::db_updater::populate(db_connection);
+
   bank::db::db_updater::update(db_connection);
   db_connection.prepare_statements();
 
