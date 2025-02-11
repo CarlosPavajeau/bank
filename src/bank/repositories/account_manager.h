@@ -19,7 +19,7 @@ public:
 
   [[nodiscard]] bool remove(uint64 id) const;
   [[nodiscard]] bool make_transaction(
-      const entities::account_transaction& transaction) const;
+      const entities::account_transaction& account_transaction) const;
 
   [[nodiscard]] bool check_password(uint64 id, std::string_view password) const;
 

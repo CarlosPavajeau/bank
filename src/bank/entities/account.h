@@ -66,10 +66,12 @@ struct account_transaction
   account_transaction(const uint64 id_,
                       const double amount_,
                       const account_transaction_kind kind_,
+                      const uint64 created_at_,
                       const uint64 account_id_)
       : id(id_)
       , amount(amount_)
       , kind(kind_)
+      , created_at(created_at_)
       , account_id(account_id_)
   {
   }
@@ -86,6 +88,7 @@ struct account_transaction
   uint64 id = 0;
   double amount = 0;
   account_transaction_kind kind = account_transaction_kind::in;
+  uint64 created_at = 0;
 
   uint64 account_id = 0;
 };

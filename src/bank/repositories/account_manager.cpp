@@ -1,4 +1,5 @@
 #include "account_manager.h"
+
 #include "db_connection.h"
 #include "field.h"
 #include "password_hasher.h"
@@ -68,11 +69,11 @@ bool account_manager::remove(const uint64 id) const
 }
 
 bool account_manager::make_transaction(
-    const entities::account_transaction& transaction) const
+    const entities::account_transaction& account_transaction) const
 {
   db_->begin_transaction();
 
-  const auto account = find(transaction.account_id);
+  const auto account = find(account_transaction.account_id);
 
   if (!account) {
     db_->rollback_transaction();
@@ -80,8 +81,8 @@ bool account_manager::make_transaction(
   }
 
   // check if account has enough balance
-  if (transaction.kind == entities::account_transaction_kind::out
-      && account->balance < transaction.amount)
+  if (account_transaction.kind == entities::account_transaction_kind::out
+      && account->balance < account_transaction.amount)
   {
     db_->rollback_transaction();
     return false;
@@ -90,9 +91,10 @@ bool account_manager::make_transaction(
   const auto insert_transaction_statement =
       db_->get_prepared_statement(db::insert_account_transaction);
 
-  insert_transaction_statement->set_uint64(0, transaction.account_id);
-  insert_transaction_statement->set_double(1, transaction.amount);
-  insert_transaction_statement->set_string(2, to_string(transaction.kind));
+  insert_transaction_statement->set_uint64(0, account_transaction.account_id);
+  insert_transaction_statement->set_double(1, account_transaction.amount);
+  insert_transaction_statement->set_string(2,
+                                           to_string(account_transaction.kind));
 
   if (const auto result = db_->execute(insert_transaction_statement);
       result != SQLITE_DONE)
@@ -102,14 +104,14 @@ bool account_manager::make_transaction(
   }
 
   const auto new_balance =
-      transaction.kind == entities::account_transaction_kind::in
-      ? account->balance + transaction.amount
-      : account->balance - transaction.amount;
+      account_transaction.kind == entities::account_transaction_kind::in
+      ? account->balance + account_transaction.amount
+      : account->balance - account_transaction.amount;
   const auto update_balance_statement =
       db_->get_prepared_statement(db::update_account_balance);
 
   update_balance_statement->set_double(0, new_balance);
-  update_balance_statement->set_uint64(1, transaction.account_id);
+  update_balance_statement->set_uint64(1, account_transaction.account_id);
 
   if (const auto result = db_->execute(update_balance_statement);
       result != SQLITE_DONE)
@@ -124,7 +126,7 @@ bool account_manager::make_transaction(
 }
 
 bool account_manager::check_password(const uint64 id,
-                                        const std::string_view password) const
+                                     const std::string_view password) const
 {
   const auto account = find(id);
 
